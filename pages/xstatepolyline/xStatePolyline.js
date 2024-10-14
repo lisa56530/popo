@@ -16,11 +16,41 @@ let polyline // La polyline en cours de construction;
 
 const polylineMachine = createMachine(
     {
-        /** @xstate-layout N4IgpgJg5mDOIC5gF8A0IB2B7CdGgAcsAbATwBkBLDMfEI2SgF0qwzoA9EBaANnVI9eAOgAM4iZMkB2ZGnokK1MMMoRitJAsYs2nRABYATAMQAOAIzCD0gJwXetgwGZezgw9ty5QA */
+        /** @xstate-layout N4IgpgJg5mDOIC5QAcD2AbAngGQJYDswA6XCdMAYgFlUBXWMAYXVwGMBrAbQAYBdRFKli4ALrlT4BIAB6IAtACYALEQDMqgOwaAjAA4ArPt0A2bgE5d2-QBoQmRAsdFdqhTuNmz+jfrNL9AL4BtmhYeIREAKr4AAqoBCLUdAw0AG5gPPxIIGjCYhJSsghyVgpEGqomlY7qBpW29ggK+sZE+o5mxr7txgqq3IHBORg4BMTRcQkUAEIAhhwAysjzGXxSuaLiktlF2v3OxrrcOm5Keq66DQ4tbR0mfdqO5oMhI+HjsfH4iTT0TCwcTLrISbAo7eTKNSaHQDVRmAbKbTGK4IVTGFRHJTHBRmC4DY5BV5hMZEGLoei4MC0ABOsEm31gFAAorBWLNkKssoI8ltCvJVNptERlNxlJ1fNoKqoUf0hdxDq5mli4ZVjIThsSImSKVTafSRIzfilUOkgdkNvltqAiiUFK0zodtGc0dxdBpOij9JKDoZjroFNxuEp3erQqMteThLq6V8DTN5uwliszdzQVaZA5zER4W4XGY9vnDsi7IglLjnEpjBoPC4NLoDNpQ28SdqozSYwlGUzvmBqSnhjywdaIQGiNijK73f6ugoZdw5Qr+pZHkHmkEhvhUBA4MDNWBgYP0zbVL5hVixV181KUaZbsugxpuJVq0om3uSGR9+aQZa+cVHuUhx+O6bjtBYRgok6GjOAoy5GL0-g4m+4YfPqB5pn+tqAbowFmKBOIGJcJaooGRDGAq+gDH4LhKLoyHvKSsywAAImAaHfoef52tBeznr6oqqEos7EdofhjkY05VkolaVvRLaRpS7b6vAHEYeCxRokQ0lwvBChWGclYokoApqJWFS0fKuJHGq65AA */
         id: "polyLine",
-        initial: "idle",
+
         states : {
-            idle: {
+            idle: {},
+
+            UnPoint: {
+                on: {
+                    MouseMove: {
+                        target: "UnPoint",
+                        internal: true
+                    },
+
+                    BackSpace: "PasDePoint"
+                }
+            },
+
+            PasDePoint: {},
+
+            PlusieursPoints: {
+                on: {
+                    Escape: "idle",
+
+                    MouseMove: {
+                        target: "PlusieursPoints",
+                        internal: true
+                    },
+
+                    BackSpace: {
+                        target: "PlusieursPoints",
+                        internal: true
+                    },
+
+                    Enter: "idle"
+                }
             }
         }
     },

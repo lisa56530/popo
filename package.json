@@ -18,6 +18,7 @@
     "konva": "^9.2.1",
     "luxon": "^3.4.3",
     "moment": "^2.29.4",
+    "statecharts": "file:",
     "xstate": "^4.38.2"
   }
 }

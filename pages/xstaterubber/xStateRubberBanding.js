@@ -26,6 +26,8 @@ let rubber;
 const rubberBandingMachine = createMachine(
   {
     /** @xstate-layout N4IgpgJg5mDOIC5QCcCuAjdZkCECGAdhAJYFQB0xEANmAMQCyA8gKoDKAogMIAyAklwDSAbQAMAXUSgADgHtYxAC7FZBKSAAeiAIwBmUeQBsAFgCsADgBMow9oDshu6bvmANCACeOu3fKnj2oamlo4AnMbGurqGAL4x7miY2PhEpBQQyHgA7mmMrJzMAGocYpJIIHIKyqrqWgjGoqbk4aF6xlaGnaKB7l4I5rrNrbqWraG62trBunEJGFi4hCRk5BnZuczs3PxCpeqVSipq5XXaoeSBxnbWdqGGuhGtvYgDQ3qjZxNTlqZx8SAEWQQODqRILFLLKD7eSHGonRAAWkmhnIlj0oUsEVEtwsoTcnkRg1MonMnVCLkMNgmolCsxAYOSSzSlBoYGhVSOtURhnMqPRmIaOPMeOeCGsvLuXTsAXsokxsX+DMWqRWaxyZHZsOOoDqXwulL0UVs5kuousgxGJuR7VMplCzj+MSAA */
+    //il renseigne l'objet java script,avec un éditeur graphique
+
     id: "rubberBanding",
     initial: "idle",
     states: {
