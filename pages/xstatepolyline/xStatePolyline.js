@@ -16,7 +16,7 @@ let polyline // La polyline en cours de construction;
 
 const polylineMachine = createMachine(
     {
-        /** @xstate-layout N4IgpgJg5mDOIC5QAcD2AbAngGQJYDswA6XCdMAYgFlUBXWMAYXVwGMBrAbQAYBdRFKli4ALrlT4BIAB6IAtACYALEQDMqgOwaAjAA4ArPt0A2bgE5d2-QBoQmRAsdFdqhTuNmz+jfrNL9AL4BtmhYeIREAKr4AAqoBCLUdAw0AG5gPPxIIGjCYhJSsghyVgpEGqomlY7qBpW29ggK+sZE+o5mxr7txgqq3IHBORg4BMTRcQkUAEIAhhwAysjzGXxSuaLiktlF2v3OxrrcOm5Keq66DQ4tbR0mfdqO5oMhI+HjsfH4iTT0TCwcTLrISbAo7eTKNSaHQDVRmAbKbTGK4IVTGFRHJTHBRmC4DY5BV5hMZEGLoei4MC0ABOsEm31gFAAorBWLNkKssoI8ltCvJVNptERlNxlJ1fNoKqoUf0hdxDq5mli4ZVjIThsSImSKVTafSRIzfilUOkgdkNvltqAiiUFK0zodtGc0dxdBpOij9JKDoZjroFNxuEp3erQqMteThLq6V8DTN5uwliszdzQVaZA5zER4W4XGY9vnDsi7IglLjnEpjBoPC4NLoDNpQ28SdqozSYwlGUzvmBqSnhjywdaIQGiNijK73f6ugoZdw5Qr+pZHkHmkEhvhUBA4MDNWBgYP0zbVL5hVixV181KUaZbsugxpuJVq0om3uSGR9+aQZa+cVHuUhx+O6bjtBYRgok6GjOAoy5GL0-g4m+4YfPqB5pn+tqAbowFmKBOIGJcJaooGRDGAq+gDH4LhKLoyHvKSsywAAImAaHfoef52tBeznr6oqqEos7EdofhjkY05VkolaVvRLaRpS7b6vAHEYeCxRokQ0lwvBChWGclYokoApqJWFS0fKuJHGq65AA */
+        /** @xstate-layout N4IgpgJg5mDOIC5QAcD2AbAngGQJYDswA6XCdMAYgFlUBXWMAYXVwGMBrAbQAYBdRFKli4ALrlT4BIAB6IAtACYiC7gA4AzKu4KFATm7cA7KtUA2ACwAaEJkQBGAKymijw+btG9dj+cMBfP2s0LDxCIgBVfAAFVAIRajoGGgA3MB5+JBA0YTEJKVkEOUcHIm51QwtHXwcHBVUFa1sEO11nNwc7Q3VWh3U7U36AoIwcAmJImLiKACEAQw4AZWR5tL4pbNFxSUyCu19lc11DnQqHcwGrG0QFU1UiB111Q4dVGv1DBSGskdDx6Nj8PEaPQmCwOOl1kJNnkdvIFOYiOpyqYjgMkRVVLpGoh1C8iOZVHt4Q8tDpTF9gqMwlF0PRcGBaAAnWCTQGwCgAUVgrFmyFWGUEOS2+XkvTsiKO5gMTwU6llhmxCD63CIrVlWk6pm4pg6FJ+YyINLpDOZrJE7OBSVQqQhmQ2uW2oAKRVUhlKTg0uhuHkJdUVHXFZzqjlMcsOpjcepCBqNwhNLIB5pm83YSxWtsF0MdMnshhV8Ju50x6hR6sVvju+llWoUdh0fSjVOIsfpTITcXZHMBYEZGe+QphTvkUvUqqLuh9UtMWoVVyVHlVpnV3E12t1gW+0bCE0TnO5vP5kIH2eddVHvXh6McLRqs6ataUdldnS6TgUtQcjd+EX+Uy7Ih7Pt7WFWFCjPIhDDsEtp3hQ4SzMRU6xKMoVEMNDzBLI46y-GNaTjNszQtRJQTYLg1jtKEHRFMCEXRSC+gGbgOjKBx-SlVVDFReFHjUckvnwVAIDgSEtzAI8s2ouQHE4iVzClMpzFleVFTkXR7l0F5Xi6Qknjkz4N0pb9SHIcSqNAtSSzKUMjF9TFzFYuc0Ig7h3CfWValeV4cO3X9AVMkCh0KOsINuI5OIUQxal0TzFXUFyiFeKC6xuEtjHMbzm1mWAABEwDNfzBxzBAbjdKCpXfBwDFlRTEKOd0TBuCM5IsPjhlEw08NbU1E3gCjj0kkt8Qwo4bg0swHgaOdzhKDRuhqTQ9l0R4MsNEYWEIAqT3kYKMUeAZZu0WpJqaac7kij4qhRdwmICAIgA */
         id: "polyLine",
 
         states : {
@@ -26,10 +26,19 @@ const polylineMachine = createMachine(
                 on: {
                     MouseMove: {
                         target: "UnPoint",
-                        internal: true
+                        internal: true,
+                        actions: "setLastPoint"
                     },
 
-                    BackSpace: "PasDePoint"
+                    BackSpace: {
+                        target: "PasDePoint",
+                        actions: "removeLastPoint"
+                    },
+
+                    Escape: {
+                        target: "idle",
+                        actions: "abandon"
+                    }
                 }
             },
 
@@ -37,21 +46,36 @@ const polylineMachine = createMachine(
 
             PlusieursPoints: {
                 on: {
-                    Escape: "idle",
+                    Escape: {
+                        target: "idle",
+                        actions: "abandon"
+                    },
 
                     MouseMove: {
                         target: "PlusieursPoints",
-                        internal: true
+                        internal: true,
+                        actions: "setLastPoint"
                     },
 
                     BackSpace: {
                         target: "PlusieursPoints",
-                        internal: true
+                        internal: true,
+                        actions: "removeLastPoint"
                     },
 
-                    Enter: "idle"
+                    Enter: {
+                        target: "idle",
+                        actions: ["saveLine", "addPoint"],
+                        cond: "New Guard"
+                    },
+                    MouseClick: {
+                        target: "Polyline",
+                        actions: "createLine"
+                    }
                 }
-            }
+            },
+
+            Polyline: {}
         }
     },
     // Quelques actions et guardes que vous pouvez utiliser dans votre machine
